@@ -14,13 +14,14 @@ class Search extends Component {
   }
 
   getInfo = () => {
-    // axios.get(`http://www.omdbapi.com/?apikey=c168a43a&t=${this.state.query}`)
-    axios.get(`${API_URL}?apikey=${API_KEY}&t=${this.state.query}`)
+    axios.get(`${API_URL}?apikey=${API_KEY}&s=${this.state.query}`)
       .then(({ data }) => {
         this.setState({
-          results: data.data
+          results: data
         })
+        // console.log(this.state.results);
       })
+      
       .catch(() => this.setState({ error: true }))
   }
 
@@ -30,9 +31,7 @@ class Search extends Component {
     }, () => {
       if (this.state.query && this.state.query.length > 1) {
         // this.showDropdown()
-        if (this.state.query.length % 2 === 0) {
-          this.getInfo()
-        }
+        this.getInfo()
       } else if (!this.state.query) {
         // this.hideDropdown()
       }
@@ -42,7 +41,7 @@ class Search extends Component {
   render() {
     return (
       <form>
-        <input
+        <input 
           placeholder="Search for..."
           ref={input => this.search = input}
           onChange={this.handleInputChange}
